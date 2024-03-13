@@ -95,6 +95,7 @@ MonoBehaviour:
   bullet: {fileID: 5695378824113796904, guid: c9962628b1b00b24791651f7906ad388, type: 3}
   shootingOffset: 1
   shotInterval: 5
+  killZone: -3.25
 --- !u!212 &8463310039805257855
 SpriteRenderer:
   m_ObjectHideFlags: 0

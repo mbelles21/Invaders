@@ -1,15 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public delegate void PlayerDied();
+    public static event PlayerDied OnPlayerDied;
+    
     public GameObject bullet;
     public Transform shootingOffset;
+    public ParticleSystem shotParticles;
     public float speed = 5f;
     public float maxX = 10f;
     public float minX = -10f;
+
+    private void Start()
+    {
+        Enemy.OnEndReached += EnemyOnOnEndReached;
+    }
+
+    private void OnDestroy()
+    {
+        Enemy.OnEndReached -= EnemyOnOnEndReached;
+    }
+
+    void EnemyOnOnEndReached()
+    {
+        OnPlayerDied.Invoke();
+        GetComponent<Animator>().SetTrigger("Dies");
+    }
 
     // Update is called once per frame
     void Update()
@@ -25,7 +47,9 @@ public class Player : MonoBehaviour
       
       if (Input.GetKeyDown(KeyCode.Space))
       {
-        // GetComponent<Animator>().SetTrigger("Shoot Trigger");
+        GetComponent<Animator>().SetTrigger("Shoot Trigger");
+        
+        shotParticles.Play();
         
         GameObject shot = Instantiate(bullet, shootingOffset.position, Quaternion.identity);
         Debug.Log("Bang!");
@@ -33,5 +57,17 @@ public class Player : MonoBehaviour
         Destroy(shot, 3f);
 
       }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(collision.gameObject);
+        OnPlayerDied.Invoke();
+        GetComponent<Animator>().SetTrigger("Dies");
+    }
+
+    void Explode()
+    {
+        Destroy(gameObject);
     }
 }

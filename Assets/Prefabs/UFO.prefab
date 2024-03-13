@@ -92,6 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796aad014e2107342a60ed88af81c745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
+  shootingOffset: 0.75
+  shotInterval: 5
+  killZone: -3.25
 --- !u!212 &6397338729726756702
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -154,7 +158,7 @@ Animator:
   m_GameObject: {fileID: 4003544032759737189}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 59120211caaad074dbf67be3adb11a9c, type: 2}
+  m_Controller: {fileID: 9100000, guid: a316b7322e332984eaa14695530dadc9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -7,6 +7,7 @@ public class Barricade : MonoBehaviour
 {
     public float health = 10f;
     public float scaleFactor = 0.1f;
+    public ParticleSystem particles;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -14,6 +15,9 @@ public class Barricade : MonoBehaviour
         
         // Debug.Log("barricade hit " + health);
         Destroy(collision.gameObject);
+        
+        particles.Play();
+        GetComponent<AudioSource>().Play();
 
         Vector3 currentScale = transform.localScale;
         currentScale.y *= 1.0f - scaleFactor;

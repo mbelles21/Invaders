@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public delegate void AllDied();
+    public static event AllDied OnAllDied;
+    
     public int rows = 5;
     public int columns = 5;
     public float moveSpeed = 2f; 
@@ -35,6 +38,12 @@ public class EnemyMovement : MonoBehaviour
     void EnemyOnOnEnemyDied(int points)
     {
         moveSpeed += speedIncrease; // increase grid speed when an enemy dies
+        int numOfChildren = gridRoot.childCount;
+        // Debug.Log(numOfChildren);
+        if (numOfChildren == 1)
+        {
+            OnAllDied.Invoke();
+        }
     }
 
     void FixedUpdate()
@@ -93,14 +102,5 @@ public class EnemyMovement : MonoBehaviour
 
         return false;
 
-    }
-
-    Transform GetObjectTransform(int row, int col)
-    {
-        // Calculate the index of the object in the grid based on row and column
-        int index = row * columns + col;
-
-        // Assuming the objects are arranged as children of this GameObject
-        return transform.GetChild(index);
     }
 }

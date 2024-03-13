@@ -7,16 +7,28 @@ using UnityEngine.SceneManagement;
 
 public class DemoLogic : MonoBehaviour
 {
-    public TextMeshProUGUI titleText; // will lose reference upon entering new scene
+    // public TextMeshProUGUI titleText; // will lose reference upon entering new scene
     
     private void Awake()
     {
         DontDestroyOnLoad(gameObject); // will preserve this object between scenes
     }
 
-    public void ConsoleTest()
+    private void Start()
     {
-        Debug.Log("ConsoleTest Invoked");
+        Player.OnPlayerDied += PlayerOnOnPlayerDied;
+        EnemyMovement.OnAllDied += PlayerOnOnPlayerDied;
+    }
+
+    private void OnDestroy()
+    {
+        Player.OnPlayerDied -= PlayerOnOnPlayerDied;
+        EnemyMovement.OnAllDied -= PlayerOnOnPlayerDied;
+    }
+
+    void PlayerOnOnPlayerDied()
+    {
+        Invoke("StartCredits", 2f);
     }
 
     public void StartGame()
@@ -35,5 +47,31 @@ public class DemoLogic : MonoBehaviour
         
         GameObject playerObj = GameObject.Find("Player");
         Debug.Log(playerObj);
+    }
+
+    public void StartCredits()
+    {
+        StartCoroutine(GetCredits());
+    }
+
+    IEnumerator GetCredits()
+    {
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Credits");
+        while (!asyncOperation.isDone)
+            yield return null;
+
+        Invoke("StartMenu", 5f);
+    }
+
+    public void StartMenu()
+    {
+        StartCoroutine(GetMainMenu());
+    }
+
+    IEnumerator GetMainMenu()
+    {
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("MainMenu");
+        while (!asyncOperation.isDone)
+            yield return null;
     }
 }

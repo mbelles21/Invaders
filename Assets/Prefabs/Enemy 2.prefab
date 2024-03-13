@@ -92,9 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796aad014e2107342a60ed88af81c745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
+  bullet: {fileID: 5695378824113796904, guid: c9962628b1b00b24791651f7906ad388, type: 3}
   shootingOffset: 0.75
   shotInterval: 5
+  killZone: -3.25
 --- !u!212 &5623035950291724934
 SpriteRenderer:
   m_ObjectHideFlags: 0
